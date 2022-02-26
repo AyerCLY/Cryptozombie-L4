@@ -16,6 +16,19 @@ contract ZombieHelper is ZombieFeeding {
     _;
   }
 
+  // 1. Create withdraw function here
+  //Note that we're using owner() and onlyOwner from the Ownable contract, assuming that was imported.
+  //It is important to note that you cannot transfer Ether to an address unless that address is of type address payable. But the _owner variable is of type uint160, meaning that we must explicitly cast it to address payable.
+  //address(this).balance will return the total balance stored on the contract. So if 100 users had paid 1 Ether to our contract, address(this).balance would equal 100 Ether.
+  function withdraw() external onlyOwner {
+    address payable _owner = address(uint160(owner()));
+    _owner.transfer(address(this).balance);
+  }
+
+  // 2. Create setLevelUpFee function here
+  function setLevelUpFee(uint _fee) external onlyOwner {
+    levelUpFee = _fee;
+  }
   // 2. Insert levelUp function here
   function levelUp(uint _zombieId) external payable {
     require(msg.value == levelUpFee);
