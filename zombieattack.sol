@@ -32,5 +32,19 @@ contract ZombieAttack is ZombieHelper {
     Zombie storage myZombie = zombies[_zombieId];
     Zombie storage enemyZombie = zombies[_targetId];
     uint rand = randMod(100);
+        // In chapter 6 we calculated a random number from 0 to 100. Now let's use that number to determine who wins the fight, and update our stats accordingly.
+    if (rand <= attackVictoryProbability) { 
+    //If this condition is true, our zombie wins! So:
+     myZombie.winCount++;
+     myZombie.level++;
+     enemyZombie.lossCount++;
+     //Run the feedAndMultiply function. Check zombiefeeding.sol to see the syntax for calling it. For the 3rd argument (_species), pass the string "zombie". (It doesn't actually do anything at the moment, but later we could add extra functionality for spawning zombie-based zombies if we wanted to).
+     feedAndMultiply(_zombieId, enemyZombie.dna, "zombie" );
+    } else {       
+    // Zombie Loss
+      myZombie.lossCount++;
+      enemyZombie.winCount++;
+      _triggerCooldown(myZombie);
+    }
   }
 }
