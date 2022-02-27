@@ -25,8 +25,12 @@ contract ZombieAttack is ZombieHelper {
   }
   
    // Create new function attack here
-  function attack (uint _zombieId, uint _targetId) external {
-    
+  // 1. Add modifier here
+  function attack(uint _zombieId, uint _targetId) external ownerOf(_zombieId) {
+    // 2. Start function definition here
+    //The first thing our function should do is get a storage pointer to both zombies so we can more easily interact with them:
+    Zombie storage myZombie = zombies[_zombieId];
+    Zombie storage enemyZombie = zombies[_targetId];
+    uint rand = randMod(100);
   }
-
 }
